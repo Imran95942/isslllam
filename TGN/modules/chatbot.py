@@ -1,348 +1,146 @@
-# AI Chat (C) 2020-2021 by @InukaAsith
-
 import re
+from time import sleep
 
-import aiohttp
-import emoji
-from googletrans import Translator as google_translator
-from pyrogram import filters
-
-
-from aiohttp import ClientSession
-from TGN import BOT_USERNAME as bu
-from TGN import BOT_ID, pbot, arq
-from TGN.ex_plugins.chatbot import add_chat, get_session, remove_chat
-from TGN.utils.pluginhelper import admins_only, edit_or_reply
-
-url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
-
-translator = google_translator()
-
-
-async def lunaQuery(query: str, user_id: int):
-    luna = await arq.luna(query, user_id)
-    return luna.result
-
-
-def extract_emojis(s):
-    return "".join(c for c in s if c in emoji.UNICODE_EMOJI)
-
-
-async def fetch(url):
-    try:
-        async with aiohttp.Timeout(10.0):
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    try:
-                        data = await resp.json()
-                    except:
-                        data = await resp.text()
-            return data
-    except:
-        print("AI response Timeout")
-        return
-
-
-ewe_chats = []
-en_chats = []
-
-
-@pbot.on_message(filters.command(["chatbot", f"chatbot@{bu}"]) & ~filters.edited & ~filters.bot & ~filters.private)
-@admins_only
-async def hmm(_, message):
-    global ewe_chats
-    if len(message.command) != 2:
-        await message.reply_text("I only recognize /chatbot on and /chatbot off only")
-        message.continue_propagation()
-    status = message.text.split(None, 1)[1]
-    chat_id = message.chat.id
-    if status == "ON" or status == "on" or status == "On":
-        lel = await edit_or_reply(message, "`Processing...`")
-        lol = add_chat(int(message.chat.id))
-        if not lol:
-            await lel.edit("GodfatherBot AI Already Activated In This Chat")
-            return
-        await lel.edit(f"GodfatherBot AI Actived by {message.from_user.mention()} for users in {message.chat.title}")
-
-    elif status == "OFF" or status == "off" or status == "Off":
-        lel = await edit_or_reply(message, "`Processing...`")
-        Escobar = remove_chat(int(message.chat.id))
-        if not Escobar:
-            await lel.edit("GodfatherBot AI Was Not Activated In This Chat")
-            return
-        await lel.edit(f"GodfatherBot AI Deactivated by {message.from_user.mention()} for users in {message.chat.title}")
-
-    elif status == "EN" or status == "en" or status == "english":
-        if not chat_id in en_chats:
-            en_chats.append(chat_id)
-            await message.reply_text(f"English AI chat Enabled by {message.from_user.mention()}")
-            return
-        await message.reply_text(f"English AI Chat Disabled by {message.from_user.mention()}")
-        message.continue_propagation()
-    else:
-        await message.reply_text("I only recognize `/chatbot on` and `chatbot off` only")
-        
-
-
-@pbot.on_message(
-    filters.text
-    & filters.reply
-    & ~filters.bot
-    & ~filters.edited
-    & ~filters.via_bot
-    & ~filters.forwarded,
-    group=2,
+import requests
+from TGN import TOKEN, dispatcher
+from TGN.modules.helper_funcs.chat_status import (
+    is_user_admin,
+    user_admin,
 )
-async def hmm(client, message):
-    if not get_session(int(message.chat.id)):
-        return
-    if not message.reply_to_message:
-        return
-    try:
-        senderr = message.reply_to_message.from_user.id
-    except:
-        return
-    if senderr != BOT_ID:
-        return
-    msg = message.text
-    chat_id = message.chat.id
-    if msg.startswith("/") or msg.startswith("@"):
-        message.continue_propagation()
-    if chat_id in en_chats:
-        test = msg
-        test = test.replace("Aco", "Emli")
-        test = test.replace("aco", "emli")
-        response = await lunaQuery(
-            test, message.from_user.id if message.from_user else 0
-        )
-        response = response.replace("aco", "emli")
-        response = response.replace("Aco", "Emli")
-        response = response.replace("Luna", "Emli")
-        response = response.replace("Luna", "emli")
-        response = response.replace("female", "male")
-        pro = response
-        try:
-            await pbot.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
-
-    else:
-        u = msg.split()
-        emj = extract_emojis(msg)
-        msg = msg.replace(emj, "")
-        if (
-            [(k) for k in u if k.startswith("@")]
-            and [(k) for k in u if k.startswith("#")]
-            and [(k) for k in u if k.startswith("/")]
-            and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
-        ):
-
-            h = " ".join(filter(lambda x: x[0] != "@", u))
-            km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
-            tm = km.split()
-            jm = " ".join(filter(lambda x: x[0] != "#", tm))
-            hm = jm.split()
-            rm = " ".join(filter(lambda x: x[0] != "/", hm))
-        elif [(k) for k in u if k.startswith("@")]:
-
-            rm = " ".join(filter(lambda x: x[0] != "@", u))
-        elif [(k) for k in u if k.startswith("#")]:
-            rm = " ".join(filter(lambda x: x[0] != "#", u))
-        elif [(k) for k in u if k.startswith("/")]:
-            rm = " ".join(filter(lambda x: x[0] != "/", u))
-        elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
-            rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
-        else:
-            rm = msg
-            # print (rm)
-        try:
-            lan = translator.detect(rm)
-            lan = lan.lang
-        except:
-            return
-        test = rm
-        if not "en" in lan and not lan == "":
-            try:
-                test = translator.translate(test, dest="en")
-                test = test.text
-            except:
-                return
-
-        test = test.replace("Emli", "aco")
-        test = test.replace("emli", "aco")
-        response = await lunaQuery(
-            test, message.from_user.id if message.from_user else 0
-        )
-        response = response.replace("aco", "emli")
-        response = response.replace("Aco", "emli")
-        response = response.replace("Luna", "emli")
-        response = response.replace("Luna", "aries")
-        response = response.replace("female", "male")
-        pro = response
-        if not "en" in lan and not lan == "":
-            try:
-                pro = translator.translate(pro, dest=lan)
-                pro = pro.text
-            except:
-                return
-        try:
-            await pbot.send_chat_action(message.chat.id, "typing")
-            await message.reply_text(pro)
-        except CFError:
-            return
-
-
-@pbot.on_message(
-    filters.text & filters.private & ~filters.edited & filters.reply & ~filters.bot
+from TGN.modules.helper_funcs.filters import CustomFilters
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import (
+    CallbackContext, CallbackQueryHandler,
+    CommandHandler, Filters, MessageHandler, run_async,
 )
-async def inuka(client, message):
-    msg = message.text
-    if msg.startswith("/") or msg.startswith("@"):
-        message.continue_propagation()
-    u = msg.split()
-    emj = extract_emojis(msg)
-    msg = msg.replace(emj, "")
-    if (
-        [(k) for k in u if k.startswith("@")]
-        and [(k) for k in u if k.startswith("#")]
-        and [(k) for k in u if k.startswith("/")]
-        and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
-    ):
 
-        h = " ".join(filter(lambda x: x[0] != "@", u))
-        km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
-        tm = km.split()
-        jm = " ".join(filter(lambda x: x[0] != "#", tm))
-        hm = jm.split()
-        rm = " ".join(filter(lambda x: x[0] != "/", hm))
-    elif [(k) for k in u if k.startswith("@")]:
+CHATBOT_ENABLED_CHATS = []
 
-        rm = " ".join(filter(lambda x: x[0] != "@", u))
-    elif [(k) for k in u if k.startswith("#")]:
-        rm = " ".join(filter(lambda x: x[0] != "#", u))
-    elif [(k) for k in u if k.startswith("/")]:
-        rm = " ".join(filter(lambda x: x[0] != "/", u))
-    elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
-        rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
+BOT_ID = int(TOKEN.split(":")[0])
+AI_API_KEY = 'VVwV177Rz1QOibLD'
+AI_BID = 162157
+
+@run_async
+@user_admin
+def chatbot_toggle(update: Update, context: CallbackContext):
+    keyboard = [
+        [
+            InlineKeyboardButton("Enable", callback_data="chatbot_enable"),
+            InlineKeyboardButton("Disable", callback_data="chatbot_disable"),
+        ],
+    ]
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_text("Choose an option:", reply_markup=reply_markup)
+
+
+@run_async
+def chatbot_handle_callq(update: Update, context: CallbackContext):
+    query = update.callback_query
+    user = update.effective_user
+    chat = update.effective_chat
+    action = query.data.split("_")[1]
+
+    if not is_user_admin(chat, user.id):
+        return query.answer("This is not for you.")
+
+    if action == "delete":
+        query.message.delete()
+
+    elif action == "enable":
+        if chat.id in CHATBOT_ENABLED_CHATS:
+            return query.answer("Chatbot is already enabled")
+        CHATBOT_ENABLED_CHATS.append(chat.id)
+        query.answer("Chatbot enabled")
+        query.message.delete()
+
+    elif action == "disable":
+        if chat.id not in CHATBOT_ENABLED_CHATS:
+            return query.answer("Chatbot is already disabled")
+        CHATBOT_ENABLED_CHATS.remove(chat.id)
+        query.answer("Chatbot disabled")
+        query.message.delete()
+
     else:
-        rm = msg
-    try:
-        lan = translator.detect(rm)
-        lan = lan.lang
-    except:
-        return
-    test = rm
-    if not "en" in lan and not lan == "":
-        try:
-            test = translator.translate(test, dest="en")
-            test = test.text
-        except:
-            return
-
-    test = test.replace("aco", "Aries")
-    test = test.replace("aco", "aries")
-
-    response = await lunaQuery(test, message.from_user.id if message.from_user else 0)
-    response = response.replace("Aco", "Emli")
-    response = response.replace("aco", "aries")
-    response = response.replace("Luna", "Emli")
-    response = response.replace("Luna", "aries")
-    response = response.replace("female", "male")
-
-    pro = response
-    if not "en" in lan and not lan == "":
-        pro = translator.translate(pro, dest=lan)
-        pro = pro.text
-    try:
-        await pbot.send_chat_action(message.chat.id, "typing")
-        await message.reply_text(pro)
-    except CFError:
-        return
+        query.answer()
 
 
-@pbot.on_message(
-    filters.regex("Emli|emli|hi|hello|lol|bot")
-    & ~filters.bot
-    & ~filters.via_bot
-    & ~filters.forwarded
-    & ~filters.reply
-    & ~filters.channel
-    & ~filters.edited
-)
-async def inuka(client, message):
-    msg = message.text
-    if msg.startswith("/") or msg.startswith("@"):
-        message.continue_propagation()
-    u = msg.split()
-    emj = extract_emojis(msg)
-    msg = msg.replace(emj, "")
-    if (
-        [(k) for k in u if k.startswith("@")]
-        and [(k) for k in u if k.startswith("#")]
-        and [(k) for k in u if k.startswith("/")]
-        and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
-    ):
+def chatbot_response(query: str, user_id: int) -> str:
+    data = requests.get(
+        f"http://api.brainshop.ai/get?bid={AI_BID}&"
+        + f"key={AI_API_KEY}&uid={user_id}&msg={query}",
+    )
+    response = data.json()["cnt"]
+    return response
 
-        h = " ".join(filter(lambda x: x[0] != "@", u))
-        km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
-        tm = km.split()
-        jm = " ".join(filter(lambda x: x[0] != "#", tm))
-        hm = jm.split()
-        rm = " ".join(filter(lambda x: x[0] != "/", hm))
-    elif [(k) for k in u if k.startswith("@")]:
 
-        rm = " ".join(filter(lambda x: x[0] != "@", u))
-    elif [(k) for k in u if k.startswith("#")]:
-        rm = " ".join(filter(lambda x: x[0] != "#", u))
-    elif [(k) for k in u if k.startswith("/")]:
-        rm = " ".join(filter(lambda x: x[0] != "/", u))
-    elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
-        rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
+def check_message(context: CallbackContext, message):
+    reply_msg = message.reply_to_message
+    text = message.text
+    if re.search("[.|\n]{0,}"+dispatcher.bot.first_name+"[.|\n]{0,}", text, flags=re.IGNORECASE):
+        return True
+    if reply_msg and reply_msg.from_user.id == BOT_ID:
+        return True
+    elif message.chat.type == 'privates':
+        return True
     else:
-        rm = msg
-    try:
-        lan = translator.detect(rm)
-        lan = lan.lang
-    except:
-        return
-    test = rm
-    if not "en" in lan and not lan == "":
-        try:
-            test = translator.translate(test, dest="en")
-            test = test.text
-        except:
+        return False
+
+
+
+def chatbot(update: Update, context: CallbackContext):
+    msg = update.effective_message
+    chat_id = update.effective_chat.id
+    is_chat = chat_id in CHATBOT_ENABLED_CHATS
+    bot = context.bot
+    if msg.text and not msg.document:
+        if not check_message(context, msg):
             return
-
-    test = test.replace("Aco", "Emli")
-    test = test.replace("aco", "emli")
-    response = await lunaQuery(test, message.from_user.id if message.from_user else 0)
-    response = response.replace("Aco", "Emli")
-    response = response.replace("aco", "Emli")
-    response = response.replace("Luna", "Emli")
-    response = response.replace("Luna", "aries")
-    response = response.replace("female", "male")
-
-    pro = response
-    if not "en" in lan and not lan == "":
-        try:
-            pro = translator.translate(pro, dest=lan)
-            pro = pro.text
-        except Exception:
-            return
-    try:
-        await pbot.send_chat_action(message.chat.id, "typing")
-        await message.reply_text(pro)
-    except CFError:
-        return
+        # lower the text to ensure text replace checks
+        query = msg.text.lower()
+        botname = bot.first_name.lower()
+        if botname in query:
+            query = query.replace(botname, "bot.name")
+        bot.send_chat_action(chat_id, action="typing")
+        user_id = update.message.from_user.id
+        response = chatbot_response(query, user_id)
+        if "Aco" in response:
+            response = response.replace("Aco", bot.first_name)
+        if "bot.name" in response:
+            response = response.replace("bot.name", bot.first_name)
+        sleep(0.3)
+        msg.reply_text(response, timeout=60)
 
 
-__help__ = """
-   GODFATHER-BOT AI 3.0 IS THE ONLY AI SYSTEM WHICH CAN DETECT & REPLY UPTO 200 LANGUAGES
 
-❍  /chatbot [ON/OFF]: Enables and disables AI Chat mode (EXCLUSIVE)
-❍  /chatbot EN : Enables English only chatbot
+def list_chatbot_chats(update: Update, context: CallbackContext):
+    text = "<b>AI-Enabled Chats</b>\n"
+    for chat in CHATBOT_ENABLED_CHATS:
+        x = context.bot.get_chat(chat)
+        name = x.title or x.first_name
+        text += f"• <code>{name}</code>\n"
+    update.effective_message.reply_text(text, parse_mode="HTML")
 
+
+__help__ = f"""
+Chatbot utilizes the API and allows {dispatcher.bot.first_name} to talk and provides a more interactive group chat experience.
+*Commands:*
+*Admins only:*
+ • `/chatbot`*:* Shows chatbot control panel
 """
 
-__mod_name__ = "chatbot"
+CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
+                                  & ~Filters.regex(r"^s\/")), chatbot)
+LIST_CB_CHATS_HANDLER = CommandHandler("listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
+
+# Filters for ignoring #note messages, !commands and sed.
+
+dispatcher.add_handler(CHATBOT_HANDLER)
+dispatcher.add_handler(LIST_CB_CHATS_HANDLER)
+
+__mod_name__ = "Chatbot"
+__command_list__ = ["chatbot", "listaichats"]
+__handlers__ = [
+    CHATBOT_HANDLER,
+    LIST_CB_CHATS_HANDLER,
+]
