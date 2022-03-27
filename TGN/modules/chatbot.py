@@ -3,12 +3,12 @@ import re
 import os
 import html
 import requests
-import Yuriko.modules.sql.kuki_sql as sql
+import TGN.modules.sql.kuki_sql as sql
 
 from time import sleep
 from telegram import ParseMode
-from Yuriko import dispatcher, updater, SUPPORT_CHAT
-from Yuriko.modules.log_channel import gloggable
+from TGN import dispatcher, updater, SUPPORT_CHAT
+from TGN.modules.log_channel import gloggable
 from telegram import (CallbackQuery, Chat, MessageEntity, InlineKeyboardButton,
                       InlineKeyboardMarkup, Message, ParseMode, Update, Bot, User)
 
@@ -18,8 +18,8 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
 
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 
-from Yuriko.modules.helper_funcs.filters import CustomFilters
-from Yuriko.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply 
+from TGN.modules.helper_funcs.filters import CustomFilters
+from TGN.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply 
 from telegram.utils.helpers import mention_html, mention_markdown, escape_markdown
 
  
@@ -78,14 +78,14 @@ def kukiadd(update: Update, context: CallbackContext) -> str:
 def kuki(update: Update, context: CallbackContext):
     user = update.effective_user
     message = update.effective_message
-    msg = f"Choose an option👻"
+    msg = f"Choose an option"
     keyboard = InlineKeyboardMarkup([[
         InlineKeyboardButton(
-            text="Enable🔥",
+            text="Enable",
             callback_data="add_chat({})")],
        [
         InlineKeyboardButton(
-            text="Disable💔",
+            text="Disable",
             callback_data="rm_chat({})")]])
     message.reply_text(
         msg,
@@ -143,11 +143,9 @@ __help__ = """
 *Admins only Commands*:
  
 ✗ /Chatbot - `Shows chatbot control panel`
-  
-*✗ Pᴏᴡᴇʀᴇᴅ 🔥 Bʏ: Kɪɢᴏ Dᴜɴɪʏᴀ!*
 """
 
-__mod_name__ = "CʜᴀᴛBᴏᴛ"
+__mod_name__ = "Chatbot"
 
 
 CHATBOTK_HANDLER = CommandHandler("chatbot", kuki)
