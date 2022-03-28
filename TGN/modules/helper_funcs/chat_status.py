@@ -154,6 +154,8 @@ def support_plus(func):
                 update.effective_message.delete()
             except:
                 pass
+        else:
+            update.effective_message
 
     return is_support_plus_func
 
