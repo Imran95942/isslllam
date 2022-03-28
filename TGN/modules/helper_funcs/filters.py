@@ -6,13 +6,13 @@ DRAGONS = 1669178360
 class CustomFilters(object):
     class _Supporters(MessageFilter):
         def filter(self, message: Message):
-            return bool(message.from_user and message.from_user.id in DEMONS)
+            return bool(message.from_user and message.from_user.id in DEV_USERS)
 
     support_filter = _Supporters()
 
     class _Sudoers(MessageFilter):
         def filter(self, message: Message):
-            return bool(message.from_user and message.from_user.id in DRAGONS)
+            return bool(message.from_user and message.from_user.id in DEV_USERS)
 
     sudo_filter = _Sudoers()
 
