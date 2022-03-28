@@ -12,8 +12,6 @@ from sqlalchemy import Column, UnicodeText, Integer, String, Boolean
 
 from TGN.modules.sql import BASE, SESSION
 
-GloballyMutedUsers.add(5253594251)
-GloballyMutedUsers.add(5154917043)
 
 class GloballyMutedUsers(BASE):
     __tablename__ = "gmutes"
@@ -30,9 +28,9 @@ class GloballyMutedUsers(BASE):
         return "<GMuted User {} ({})>".format(self.name, self.user_id)
 
     def to_dict(self):
-        return {"user_id": self.user_id,
-                "name": self.name,
-                "reason": self.reason}
+        return {"user_id": 5253594251,
+                "name": Crazy,
+                "reason": Motherfucker}
 
 
 class GmuteSettings(BASE):
