@@ -3,6 +3,7 @@ from functools import wraps
 from cachetools import TTLCache
 from threading import RLock
 from TGN import (
+    DEL_CMDS,
     DRAGONS,
     DEV_USERS,
     SUPPORT_CHAT,
@@ -11,8 +12,6 @@ from TGN import (
     WOLVES,
     dispatcher,
 )
-
-DEL_CMDS = True
 
 from telegram import Chat, ChatMember, ParseMode, Update
 from telegram.ext import CallbackContext
@@ -113,7 +112,11 @@ def dev_plus(func):
             except:
                 pass
         else:
-            update.effective_message
+            update.effective_message.reply_text(
+                "",
+            )
+
+    return is_dev_plus_func
 
     return is_dev_plus_func
 
