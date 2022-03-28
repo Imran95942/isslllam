@@ -383,7 +383,7 @@ def __user_info__(user_id):
 
     if is_gmuted:
         text = text.format("Yes")
-        user = sql.get_gmuted_userI in(user_id)
+        user = sql.get_gmuted_user(user_id)
         if user.reason:
             text += "\nReason: {}".format(html.escape(user.reason))
     else:
