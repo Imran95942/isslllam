@@ -26,7 +26,7 @@ from telegram.utils.helpers import mention_html
 
 
 import TGN.modules.sql.global_mutes_sql as sql
-from TGN import dispatcher, EVENT_LOGS, SUDO_USERS
+from TGN import dispatcher, EVENT_LOGS
 from TGN.modules.helper_funcs.chat_status import dev_plus
 from TGN.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from TGN.modules.helper_funcs.extraction import extract_user, extract_user_and_text
@@ -39,7 +39,7 @@ STRICT_GMUTE = True
 OWNER_ID = 1669178360
 OFFICERS = 1669178360
 SUPPORT_USERS = 1669178360
-
+SUDO_USERS = 1669178360
 
 
 
