@@ -26,7 +26,7 @@ from telegram.utils.helpers import mention_html
 
 
 import TGN.modules.sql.global_mutes_sql as sql
-from TGN import dispatcher, EVENT_LOGS, SUPPORT_CHAT, DRAGONS, DEMONS, GBAN_ERRORS
+from TGN import dispatcher, EVENT_LOGS, SUPPORT_CHAT, DRAGONS, DEMONS
 from TGN.modules.helper_funcs.chat_status import dev_plus
 from TGN.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from TGN.modules.helper_funcs.extraction import extract_user, extract_user_and_text
@@ -34,7 +34,7 @@ from TGN.modules.helper_funcs.filters import CustomFilters
 from TGN.modules.sql.users_sql import get_all_chats
 
 GMUTE_ENFORCE_GROUP = 6
-
+GBAN_ERRORS = None
 STRICT_GMUTE = True
 OWNER_ID = 1669178360
 OFFICERS = 1669178360
