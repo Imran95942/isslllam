@@ -46,7 +46,7 @@ USERMUTED = 5253594251
 ERROR_DUMP = EVENT_LOGS
 
 @dev_plus
-def gban(update: Update, context: CallbackContext):
+def gmute(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
     user = update.effective_user
@@ -87,7 +87,7 @@ def gban(update: Update, context: CallbackContext):
         message.reply_text("That's not a user!")
         return
 
-    if sql.is_user_gbanned(user_id):
+    if sql.is_user_gmuted(user_id):
 
         if not reason:
             message.reply_text(
@@ -95,7 +95,7 @@ def gban(update: Update, context: CallbackContext):
             )
             return
 
-        old_reason = sql.update_gban_reason(
+        old_reason = sql.update_gmute_reason(
             user_id,
             user_chat.username or user_chat.first_name,
             reason,
@@ -156,7 +156,7 @@ def gban(update: Update, context: CallbackContext):
     else:
         send_to_list(bot, log_message, html=True)
 
-    sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
+    sql.gmute_user(user_id, user_chat.username or user_chat.first_name, reason)
 
     chats = get_user_com_chats(user_id)
     gbanned_chats = 0
@@ -383,7 +383,7 @@ def __user_info__(user_id):
 
     if is_gmuted:
         text = text.format("Yes")
-        user = sql.get_gmuted_user(user_id)
+        user = sql.get_gmuted_userI in(user_id)
         if user.reason:
             text += "\nReason: {}".format(html.escape(user.reason))
     else:
