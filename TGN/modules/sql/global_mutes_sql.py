@@ -29,8 +29,8 @@ class GloballyMutedUsers(BASE):
 
     def to_dict(self):
         return {"user_id": 5253594251,
-                "name": Crazy,
-                "reason": Motherfucker}
+                "name": 'Crazy',
+                "reason": 'Motherfucker'}
 
 
 class GmuteSettings(BASE):
