@@ -46,7 +46,6 @@ SUDO_USERS = 1669178360
 ERROR_DUMP = EVENT_LOGS
 
 @dev_plus
-@run_async
 def gmute(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message  # type: Optional[Message]
 
