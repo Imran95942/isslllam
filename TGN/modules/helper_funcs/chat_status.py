@@ -5,6 +5,7 @@ from threading import RLock
 from TGN import (
     DEL_CMDS,
     DRAGONS,
+    DEV_USERS,
     SUPPORT_CHAT,
     DEMONS,
     TIGERS,
@@ -18,7 +19,6 @@ from telegram.ext import CallbackContext
 # stores admemes in memory for 10 min.
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
-DEV_USERS = 1669178360
 
 def is_whitelist_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     return any(user_id in user for user in [WOLVES, TIGERS, DEMONS, DRAGONS, DEV_USERS])
