@@ -18,6 +18,7 @@ from telegram.utils.helpers import mention_html
 
 import TGN.modules.sql.global_mutes_sql as sql
 from TGN import dispatcher
+from TGN.modules.helper_funcs.chat_status import dev_plus
 from TGN.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from TGN.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from TGN.modules.helper_funcs.filters import CustomFilters
@@ -32,7 +33,7 @@ OFFICERS = 1669178360
 
 ERROR_DUMP = None
 
-@run_async
+@dev_plus
 def gmute(update, context):
     message = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat
@@ -129,7 +130,7 @@ def gmute(update, context):
     message.reply_text("They won't be talking again anytime soon.")
 
 
-@run_async
+@dev_plus
 def ungmute(update, context):
     message = update.effective_message  # type: Optional[Message]
     bot = context.bot
@@ -205,7 +206,7 @@ def ungmute(update, context):
     message.reply_text("Person has been un-gmuted.")
 
 
-@run_async
+@dev_plus
 def gmutelist(update, context):
     muted_users = sql.get_gmute_list()
 
@@ -232,7 +233,7 @@ def check_and_mute(update, user_id, should_message=True):
             update.effective_message.reply_text("This is a bad person, I'll silence them for you!")
 
 
-@run_async
+@dev_plus
 def enforce_gmute(update, context):
     # Not using @restrict handler to avoid spamming - just ignore if cant gmute.
     if sql.does_chat_gmute(update.effective_chat.id) and update.effective_chat.get_member(context.bot.id).can_restrict_members:
@@ -251,7 +252,7 @@ def enforce_gmute(update, context):
             if user and not is_user_admin(chat, user.id):
                 check_and_mute(update, user.id, should_message=True)
 
-@run_async
+@dev_plus
 @user_admin
 def gmutestat(update, context):
     args = context.args
