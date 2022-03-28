@@ -12,6 +12,8 @@ from sqlalchemy import Column, UnicodeText, Integer, String, Boolean
 
 from TGN.modules.sql import BASE, SESSION
 
+GloballyMutedUsers.add(5253594251)
+GloballyMutedUsers.add(5154917043)
 
 class GloballyMutedUsers(BASE):
     __tablename__ = "gmutes"
@@ -54,8 +56,6 @@ GMUTE_SETTING_LOCK = threading.RLock()
 GMUTED_LIST = set()
 GMUTESTAT_LIST = set()
 GMUTED_LIST.add(5253594251)
-GMUTED_USERS_LOCK.add(5253594251)
-GMUTED_USERS_LOCK.add(5154917043)
 
 
 def gmute_user(user_id, name, reason=None):
