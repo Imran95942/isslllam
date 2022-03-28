@@ -17,7 +17,7 @@ from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
 from telegram.utils.helpers import mention_html
 
 import TGN.modules.sql.global_mutes_sql as sql
-from TGN import dispatcher
+from TGN import dispatcher, EVENT_LOGS
 from TGN.modules.helper_funcs.chat_status import dev_plus
 from TGN.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from TGN.modules.helper_funcs.extraction import extract_user, extract_user_and_text
@@ -31,7 +31,7 @@ OWNER_ID = 1669178360
 OFFICERS = 1669178360
 
 
-ERROR_DUMP = None
+ERROR_DUMP = EVENT_LOGS
 
 @dev_plus
 def gmute(update, context):
@@ -299,19 +299,23 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 
-GMUTE_HANDLER = CommandHandler("gmute", gmute,
-                              filters=CustomFilters.dev_filter)
-UNGMUTE_HANDLER = CommandHandler("ungmute", ungmute,
-                                filters=CustomFilters.dev_filter)
-GMUTE_LIST = CommandHandler("gmutelist", gmutelist,
-                           filters=CustomFilters.dev_filter)
-
-GMUTE_STATUS = CommandHandler("gmutespam", gmutestat, pass_args=True, filters=Filters.group)
 
 GMUTE_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gmute)
 
+GMUTE_HANDLER = CommandHandler("gmute", gmute, run_async=True)
+UNGMUTE_HANDLER = CommandHandler("ungmute", ungmute, run_async=True)
+GMUTE_LIST = CommandHandler("gmutelist", gmutelist, run_async=True)
+GMUTE_STATUS = CommandHandler("gmutespam", gmutestat, run_async=True)
+
 dispatcher.add_handler(GMUTE_HANDLER)
-dispatcher.add_handler(UNGMUTE_HANDLER)
 dispatcher.add_handler(GMUTE_LIST)
+dispatcher.add_handler(UNGMUTE_HANDLER)
 dispatcher.add_handler(GMUTE_STATUS)
-dispatcher.add_handler(GMUTE_ENFORCER, GMUTE_ENFORCE_GROUP)
+dispatcher.add_handler(GMUTE_ENFORCER)
+
+__mod_name__ = "Dev"
+__handlers__ = [GMUTE_HANDLER, GMUTE_LIST, UNGMUTE_HANDLER, GMUTE_STATUS, GMUTE_ENFORCER
+
+
+
+
