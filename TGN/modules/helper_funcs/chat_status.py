@@ -112,7 +112,6 @@ def dev_plus(func):
                 update.effective_message.delete()
             except:
                 pass
-
     return is_dev_plus_func
 
 
@@ -154,9 +153,6 @@ def support_plus(func):
                 update.effective_message.delete()
             except:
                 pass
-        else:
-            update.effective_message
-
     return is_support_plus_func
 
 
