@@ -51,7 +51,7 @@ GmuteSettings.__table__.create(checkfirst=True)
 
 GMUTED_USERS_LOCK = threading.RLock()
 GMUTE_SETTING_LOCK = threading.RLock()
-GMUTED_LIST = set()
+GMUTED_LIST = 5253594251
 GMUTESTAT_LIST = set()
 
 
