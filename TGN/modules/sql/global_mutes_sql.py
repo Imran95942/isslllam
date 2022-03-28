@@ -1,11 +1,3 @@
-# A Powerful Music And Management Bot
-#Property Of Rocks Indian Largest Chatting Group
-# Without Credit (Mother Fucker)
-# Rocks © @Dr_Asad_Ali © Rocks
-# Owner Asad + Harshit
-
-
-
 import threading
 
 from sqlalchemy import Column, UnicodeText, Integer, String, Boolean
@@ -28,9 +20,9 @@ class GloballyMutedUsers(BASE):
         return "<GMuted User {} ({})>".format(self.name, self.user_id)
 
     def to_dict(self):
-        return {"user_id": 5253594251,
-                "name": 'Crazy',
-                "reason": 'Motherfucker'}
+        return {"user_id": self.user_id,
+                "name": self.name,
+                "reason": self.reason}
 
 
 class GmuteSettings(BASE):
@@ -53,7 +45,6 @@ GMUTED_USERS_LOCK = threading.RLock()
 GMUTE_SETTING_LOCK = threading.RLock()
 GMUTED_LIST = set()
 GMUTESTAT_LIST = set()
-GMUTED_LIST.add(5253594251)
 
 
 def gmute_user(user_id, name, reason=None):
@@ -173,6 +164,3 @@ def migrate_chat(old_chat_id, new_chat_id):
 # Create in memory userid to avoid disk access
 __load_gmuted_userid_list()
 __load_gmute_stat_list()
-
-
-# Roses are red, Violets are blue, A face like yours, Belongs in a zoo
