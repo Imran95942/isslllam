@@ -331,7 +331,7 @@ def gmutelist(update, context):
 
 
 def check_and_mute(update, user_id, should_message=True):
-    if sqls.is_user_gmuted(user_id):
+    if sqls.is_user_gbanned(user_id):
         context.bot.restrict_chat_member(update.effective_chat.id, user_id, can_send_messages=False)
         if should_message:
             update.effective_message.reply_text("This is a bad person, I'll silence them for you!")
@@ -340,7 +340,7 @@ def check_and_mute(update, user_id, should_message=True):
 @dev_plus
 def enforce_gmute(update, context):
     # Not using @restrict handler to avoid spamming - just ignore if cant gmute.
-    if sql.does_chat_gmute(update.effective_chat.id) and update.effective_chat.get_member(context.bot.id).can_restrict_members:
+    if sqls.does_chat_gban(update.effective_chat.id) and update.effective_chat.get_member(context.bot.id).can_restrict_members:
         user = update.effective_user  # type: Optional[User]
         chat = update.effective_chat  # type: Optional[Chat]
         msg = update.effective_message  # type: Optional[Message]
@@ -379,7 +379,7 @@ def gmutestat(update, context):
 
 
 def __user_info__(user_id):
-    is_gmuted = sql.is_user_gmuted(user_id)
+    is_gmuted = sqls.is_user_gbanned(user_id)
     text = "<b>Globally Muted : </b>{}"
 
     if user_id == dispatcher.bot.id:
