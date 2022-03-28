@@ -298,12 +298,12 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 
-GMUTE_HANDLER = CommandHandler("gmute", gmute, pass_args=True,
-                              filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
-UNGMUTE_HANDLER = CommandHandler("ungmute", ungmute, pass_args=True,
-                                filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
+GMUTE_HANDLER = CommandHandler("gmute", gmute,
+                              filters=CustomFilters.dev_filter)
+UNGMUTE_HANDLER = CommandHandler("ungmute", ungmute,
+                                filters=CustomFilters.dev_filter)
 GMUTE_LIST = CommandHandler("gmutelist", gmutelist,
-                           filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
+                           filters=CustomFilters.dev_filter)
 
 GMUTE_STATUS = CommandHandler("gmutespam", gmutestat, pass_args=True, filters=Filters.group)
 
@@ -313,6 +313,4 @@ dispatcher.add_handler(GMUTE_HANDLER)
 dispatcher.add_handler(UNGMUTE_HANDLER)
 dispatcher.add_handler(GMUTE_LIST)
 dispatcher.add_handler(GMUTE_STATUS)
-
-if STRICT_GMUTE:
-    dispatcher.add_handler(GMUTE_ENFORCER, GMUTE_ENFORCE_GROUP)
+dispatcher.add_handler(GMUTE_ENFORCER, GMUTE_ENFORCE_GROUP)
