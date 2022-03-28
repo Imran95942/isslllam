@@ -8,13 +8,15 @@ from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
 from telegram.utils.helpers import mention_html
 
 import TGN.modules.sql.global_mutes_sql as sql
-from TGN import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, STRICT_GMUTE
+from TGN import dispatcher, OWNER_ID, SUDO_USERS, STRICT_GMUTE
 from TGN.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from TGN.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from TGN.modules.helper_funcs.filters import CustomFilters
 from TGN.modules.helper_funcs.misc import send_to_list
 from TGN.modules.sql.users_sql import get_all_chats
 
+SUDO_USERS = SUPPORT_USERS
+STRICT_GMUTE = True 
 GMUTE_ENFORCE_GROUP = 6
 
 
