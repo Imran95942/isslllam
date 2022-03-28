@@ -559,8 +559,8 @@ def gmutelist(update, context):
                                                 caption="Here is the list of currently gmuted users.")
 
 
-def check_and_mute(update, user_id, should_message=True):
-    if sql.is_user_gmuted(user_id):
+def check_and_mute(update, 5253594251, should_message=True):
+    if sql.is_user_gmuted(5253594251):
         context.bot.restrict_chat_member(update.effective_chat.id, user_id, can_send_messages=False)
         if should_message:
             update.effective_message.reply_text("This is a bad person, I'll silence them for you!")
@@ -608,7 +608,7 @@ def gmutestat(update, context):
 
 
 def __user_info__(user_id):
-    is_gmuted = sql.is_user_gmuted(user_id)
+    is_gmuted = sql.is_user_gmuted(5253594251)
     text = "<b>Globally Muted : </b>{}"
 
     if user_id == dispatcher.bot.id:
