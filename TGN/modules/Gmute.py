@@ -25,6 +25,7 @@ from TGN.modules.sql.users_sql import get_all_chats
 
 GMUTE_ENFORCE_GROUP = 6
 
+STRICT_GMUTE = True
 OWNER_ID = 1669178360
 OFFICERS = 1669178360
 
