@@ -15,9 +15,18 @@ from telegram import Message, Update, Bot, User, Chat
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
 from telegram.utils.helpers import mention_html
+import html
+from io import BytesIO
+from typing import Optional, List
+
+from telegram import Message, Update, Bot, User, Chat
+from telegram.error import BadRequest, TelegramError
+from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
+from telegram.utils.helpers import mention_html
+
 
 import TGN.modules.sql.global_mutes_sql as sql
-from TGN import dispatcher, EVENT_LOGS
+from TGN import dispatcher, EVENT_LOGS, SUDO_USERS
 from TGN.modules.helper_funcs.chat_status import dev_plus
 from TGN.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from TGN.modules.helper_funcs.extraction import extract_user, extract_user_and_text
@@ -29,35 +38,38 @@ GMUTE_ENFORCE_GROUP = 6
 STRICT_GMUTE = True
 OWNER_ID = 1669178360
 OFFICERS = 1669178360
+SUPPORT_USERS = 1669178360
+
+
 
 
 ERROR_DUMP = EVENT_LOGS
 
 @dev_plus
-def gmute(update, context):
+@run_async
+def gmute(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message  # type: Optional[Message]
-    chat = update.effective_chat
-    args = context.args
+
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
         message.reply_text("You don't seem to be referring to a user.")
         return
 
-    if int(user_id) in OFFICERS:
-        message.reply_text("I Can't Gmute My Sudo Users .")
+    if int(user_id) in SUDO_USERS:
+        message.reply_text("I spy, with my little eye... a sudo user war! Why are you guys turning on each other?")
         return
 
-    if user_id == context.bot.id:
-        message.reply_text("I can't gmute myself.")
+    if int(user_id) in SUPPORT_USERS:
+        message.reply_text("OOOH someone's trying to gmute a support user! *grabs popcorn*")
         return
 
-    if not reason:
-        message.reply_text("Please give a reason why are you want to gmute this user!")
+    if user_id == bot.id:
+        message.reply_text("-_- So funny, lets gmute myself why don't I? Nice try.")
         return
 
     try:
-        user_chat = context.bot.get_chat(user_id)
+        user_chat = bot.get_chat(user_id)
     except BadRequest as excp:
         message.reply_text(excp.message)
         return
@@ -75,14 +87,19 @@ def gmute(update, context):
         if success:
             message.reply_text("This user is already gmuted; I've gone and updated the gmute reason though!")
         else:
-            message.reply_text("I thought this person was gmuted.")
+            message.reply_text("Huh? Do you mind trying again? I thought this person was gmuted, but then they weren't? "
+                               "Am very confused")
 
         return
 
-    message.reply_text("Gets duct tape ready 😉")
+    message.reply_text("Getting the duts ready. *muting user*")
 
     muter = update.effective_user  # type: Optional[User]
-
+    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
+                 "{} is gmuting user {} "
+                 "because:\n{}".format(mention_html(muter.id, muter.first_name),
+                                       mention_html(user_chat.id, user_chat.first_name), reason or "No reason given"),
+                 html=True)
 
     sql.gmute_user(user_id, user_chat.username or user_chat.first_name, reason)
 
@@ -95,7 +112,7 @@ def gmute(update, context):
             continue
 
         try:
-            context.bot.restrict_chat_member(chat_id, user_id, permissions=ChatPermissions(can_send_messages=False))
+            bot.restrict_chat_member(chat_id, user_id, can_send_messages=False)
         except BadRequest as excp:
             if excp.message == "User is an administrator of the chat":
                 pass
@@ -105,7 +122,7 @@ def gmute(update, context):
                 pass
             elif excp.message == "User_not_participant":
                 pass
-            elif excp.message == "Peer_id_invalid":  # Suspect this happens when a group is suspended by telegram.
+            elif excp.message == "Peer_id_invalid":
                 pass
             elif excp.message == "Group chat was deactivated":
                 pass
@@ -120,15 +137,15 @@ def gmute(update, context):
             elif excp.message == "Can't demote chat creator":
                 pass
             else:
-                message.reply_text("Unexpected Error!")
-                context.bot.send_message(ERROR_DUMP, "Could not gmute due to: {}".format(excp.message))
+                message.reply_text("Could not gmute due to: {}".format(excp.message))
+                send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Could not gmute due to: {}".format(excp.message))
                 sql.ungmute_user(user_id)
                 return
         except TelegramError:
             pass
 
-    message.reply_text("They won't be talking again anytime soon.")
-
+    send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gmute complete!")
+    message.reply_text("Successfully Fucked This User Mouth 👄.")
 
 @dev_plus
 def ungmute(update, context):
