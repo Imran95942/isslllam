@@ -1,18 +1,18 @@
+from TGN import DEV_USERS, DRAGONS, DEMONS
 from telegram import Message
 from telegram.ext import MessageFilter
-DEV_USERS = 1669178360
-DRAGONS = 1669178360
+
 
 class CustomFilters(object):
     class _Supporters(MessageFilter):
         def filter(self, message: Message):
-            return bool(message.from_user and message.from_user.id in DEV_USERS)
+            return bool(message.from_user and message.from_user.id in DEMONS)
 
     support_filter = _Supporters()
 
     class _Sudoers(MessageFilter):
         def filter(self, message: Message):
-            return bool(message.from_user and message.from_user.id in DEV_USERS)
+            return bool(message.from_user and message.from_user.id in DRAGONS)
 
     sudo_filter = _Sudoers()
 
