@@ -1,7 +1,7 @@
-from TGN import DEV_USERS, DRAGONS, DEMONS
 from telegram import Message
 from telegram.ext import MessageFilter
-
+DEV_USERS = 1669178360
+DRAGONS = 1669178360
 
 class CustomFilters(object):
     class _Supporters(MessageFilter):
