@@ -189,7 +189,7 @@ def gmute(update: Update, context: CallbackContext):
                         DRAGONS,
                         f"Could not gban due to: {excp.message}",
                     )
-                sql.ungban_user(user_id)
+                sql.ungmute_user(user_id)
                 return
         except TelegramError:
             pass
