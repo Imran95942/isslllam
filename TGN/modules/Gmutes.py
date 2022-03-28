@@ -560,7 +560,7 @@ def gmutelist(update, context):
 
 
 def check_and_mute(update, user_id, should_message=True):
-    if USERMUTED:
+    if USERMUTED(user_id):
         context.bot.restrict_chat_member(update.effective_chat.id, user_id, can_send_messages=False)
         if should_message:
             update.effective_message.reply_text("This is a bad person, I'll silence them for you!")
