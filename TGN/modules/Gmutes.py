@@ -40,7 +40,7 @@ OWNER_ID = 1669178360
 OFFICERS = 1669178360
 SUPPORT_USERS = 1669178360
 SUDO_USERS = 1669178360
-
+USERMUTED = 5253594251
 
 
 ERROR_DUMP = EVENT_LOGS
@@ -560,7 +560,7 @@ def gmutelist(update, context):
 
 
 def check_and_mute(update, user_id, should_message=True):
-    if sql.is_user_gmuted(user_id):
+    if USERMUTED:
         context.bot.restrict_chat_member(update.effective_chat.id, user_id, can_send_messages=False)
         if should_message:
             update.effective_message.reply_text("This is a bad person, I'll silence them for you!")
