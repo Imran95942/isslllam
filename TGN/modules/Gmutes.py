@@ -627,4 +627,4 @@ dispatcher.add_handler(GMUTE_STATUS)
 dispatcher.add_handler(GMUTE_ENFORCER)
 
 __mod_name__ = "Gmute"
-__handlers__ = [GMUTE_HANDLER, GMUTE_LIST, UNGMUTE_HANDLER, GMUTE_STATUS, GMUTE_ENFORCER
+__handlers__ = [GMUTE_HANDLER, GMUTE_LIST, UNGMUTE_HANDLER, GMUTE_STATUS, GMUTE_ENFORCER]
