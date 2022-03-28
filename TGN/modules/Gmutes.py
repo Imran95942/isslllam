@@ -638,7 +638,8 @@ GMUTE_LIST = CommandHandler("gmutelist", gmutelist, run_async=True)
 dispatcher.add_handler(GMUTE_HANDLER)
 dispatcher.add_handler(GMUTE_LIST)
 dispatcher.add_handler(UNGMUTE_HANDLER)
+dispatcher.add_handler(GMUTE_STATUS)
 dispatcher.add_handler(GMUTE_ENFORCER)
 
 __mod_name__ = "Gmute"
-__handlers__ = [GMUTE_HANDLER, GMUTE_LIST, UNGMUTE_HANDLER, GMUTE_ENFORCER]
+__handlers__ = [GMUTE_HANDLER, GMUTE_LIST, GMUTE_STATUS, UNGMUTE_HANDLER, GMUTE_ENFORCER]
