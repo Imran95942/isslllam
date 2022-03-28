@@ -634,7 +634,6 @@ GMUTE_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gmute)
 GMUTE_HANDLER = CommandHandler("gmute", gmute, run_async=True)
 UNGMUTE_HANDLER = CommandHandler("ungmute", ungmute, run_async=True)
 GMUTE_LIST = CommandHandler("gmutelist", gmutelist, run_async=True)
-GMUTE_STATUS = CommandHandler("gmutespam", gmutestat, run_async=True)
 
 dispatcher.add_handler(GMUTE_HANDLER)
 dispatcher.add_handler(GMUTE_LIST)
