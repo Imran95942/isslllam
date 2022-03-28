@@ -26,7 +26,7 @@ from telegram.utils.helpers import mention_html
 
 
 import TGN.modules.sql.global_mutes_sql as sql
-from TGN import dispatcher, EVENT_LOGS
+from TGN import dispatcher, EVENT_LOGS, SUPPORT_CHAT, DRAGONS, DEMONS, GBAN_ERRORS
 from TGN.modules.helper_funcs.chat_status import dev_plus
 from TGN.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from TGN.modules.helper_funcs.extraction import extract_user, extract_user_and_text
@@ -46,105 +46,187 @@ USERMUTED = 5253594251
 ERROR_DUMP = EVENT_LOGS
 
 @dev_plus
-def gmute(bot: Bot, update: Update, args: List[str]):
-    message = update.effective_message  # type: Optional[Message]
+def gban(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    message = update.effective_message
+    user = update.effective_user
+    chat = update.effective_chat
+    log_message = ""
 
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text(
+            "You don't seem to be referring to a user or the ID specified is incorrect..",
+        )
         return
 
-    if int(user_id) in SUDO_USERS:
-        message.reply_text("I spy, with my little eye... a sudo user war! Why are you guys turning on each other?")
-        return
-
-    if int(user_id) in SUPPORT_USERS:
-        message.reply_text("OOOH someone's trying to gmute a support user! *grabs popcorn*")
+    if int(user_id) in DEV_USERS:
+        message.reply_text(
+            "That user is part of the Association\nI can't act against our own.",
+        )
         return
 
     if user_id == bot.id:
-        message.reply_text("-_- So funny, lets gmute myself why don't I? Nice try.")
+        message.reply_text("You uhh...want me to punch myself?")
+        return
+
+    if user_id in [777000, 1087968824]:
+        message.reply_text("Fool! You can't attack Telegram's native tech!")
         return
 
     try:
         user_chat = bot.get_chat(user_id)
     except BadRequest as excp:
-        message.reply_text(excp.message)
+        if excp.message == "User not found":
+            message.reply_text("I can't seem to find this user.")
+            return ""
         return
 
-    if user_chat.type != 'private':
+    if user_chat.type != "private":
         message.reply_text("That's not a user!")
         return
 
-    if sql.is_user_gmuted(user_id):
+    if sql.is_user_gbanned(user_id):
+
         if not reason:
-            message.reply_text("This user is already gmuted; I'd change the reason, but you haven't given me one...")
+            message.reply_text(
+                "This user is already gbanned; I'd change the reason, but you haven't given me one...",
+            )
             return
 
-        success = sql.update_gmute_reason(user_id, user_chat.username or user_chat.first_name, reason)
-        if success:
-            message.reply_text("This user is already gmuted; I've gone and updated the gmute reason though!")
+        old_reason = sql.update_gban_reason(
+            user_id,
+            user_chat.username or user_chat.first_name,
+            reason,
+        )
+        if old_reason:
+            message.reply_text(
+                "This user is already gbanned, for the following reason:\n"
+                "<code>{}</code>\n"
+                "I've gone and updated it with your new reason!".format(
+                    html.escape(old_reason),
+                ),
+                parse_mode=ParseMode.HTML,
+            )
+
         else:
-            message.reply_text("Huh? Do you mind trying again? I thought this person was gmuted, but then they weren't? "
-                               "Am very confused")
+            message.reply_text(
+                "This user is already gbanned, but had no reason set; I've gone and updated it!",
+            )
 
         return
 
-    message.reply_text("Getting the duts ready. *muting user*")
+    message.reply_text("On it!")
 
-    muter = update.effective_user  # type: Optional[User]
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
-                 "{} is gmuting user {} "
-                 "because:\n{}".format(mention_html(muter.id, muter.first_name),
-                                       mention_html(user_chat.id, user_chat.first_name), reason or "No reason given"),
-                 html=True)
+    start_time = time.time()
+    datetime_fmt = "%Y-%m-%dT%H:%M"
+    current_time = datetime.utcnow().strftime(datetime_fmt)
 
-    sql.gmute_user(user_id, user_chat.username or user_chat.first_name, reason)
+    if chat.type != "private":
+        chat_origin = "<b>{} ({})</b>\n".format(html.escape(chat.title), chat.id)
+    else:
+        chat_origin = "<b>{}</b>\n".format(chat.id)
 
-    chats = get_all_chats()
+    log_message = (
+        f"#GMUTED\n"
+        f"<b>Originated from:</b> <code>{chat_origin}</code>\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
+        f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n"
+        f"<b>Event Stamp:</b> <code>{current_time}</code>"
+    )
+
+    if reason:
+        if chat.type == chat.SUPERGROUP and chat.username:
+            log_message += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
+        else:
+            log_message += f"\n<b>Reason:</b> <code>{reason}</code>"
+
+    if EVENT_LOGS:
+        try:
+            log = bot.send_message(EVENT_LOGS, log_message, parse_mode=ParseMode.HTML)
+        except BadRequest as excp:
+            log = bot.send_message(
+                EVENT_LOGS,
+                log_message
+                + "\n\nFormatting has been disabled due to an unexpected error.",
+            )
+
+    else:
+        send_to_list(bot, log_message, html=True)
+
+    sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
+
+    chats = get_user_com_chats(user_id)
+    gbanned_chats = 0
+
     for chat in chats:
-        chat_id = chat.chat_id
+        chat_id = int(chat)
 
-        # Check if this group has disabled gmutes
-        if not sql.does_chat_gmute(chat_id):
+        # Check if this group has disabled gbans
+        if not sql.does_chat_gban(chat_id):
             continue
 
         try:
-            bot.restrict_chat_member(chat_id, user_id, can_send_messages=False)
+            bot.ban_chat_member(chat_id, user_id)
+            gbanned_chats += 1
+
         except BadRequest as excp:
-            if excp.message == "User is an administrator of the chat":
-                pass
-            elif excp.message == "Chat not found":
-                pass
-            elif excp.message == "Not enough rights to restrict/unrestrict chat member":
-                pass
-            elif excp.message == "User_not_participant":
-                pass
-            elif excp.message == "Peer_id_invalid":
-                pass
-            elif excp.message == "Group chat was deactivated":
-                pass
-            elif excp.message == "Need to be inviter of a user to kick it from a basic group":
-                pass
-            elif excp.message == "Chat_admin_required":
-                pass
-            elif excp.message == "Only the creator of a basic group can kick group administrators":
-                pass
-            elif excp.message == "Method is available only for supergroups":
-                pass
-            elif excp.message == "Can't demote chat creator":
+            if excp.message in GBAN_ERRORS:
                 pass
             else:
-                message.reply_text("Could not gmute due to: {}".format(excp.message))
-                send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Could not gmute due to: {}".format(excp.message))
-                sql.ungmute_user(user_id)
+                message.reply_text(f"Could not gban due to: {excp.message}")
+                if EVENT_LOGS:
+                    bot.send_message(
+                        EVENT_LOGS,
+                        f"Could not gban due to {excp.message}",
+                        parse_mode=ParseMode.HTML,
+                    )
+                else:
+                    send_to_list(
+                        bot,
+                        DRAGONS,
+                        f"Could not gban due to: {excp.message}",
+                    )
+                sql.ungban_user(user_id)
                 return
         except TelegramError:
             pass
 
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gmute complete!")
-    message.reply_text("Successfully Fucked This User Mouth 👄.")
+    if EVENT_LOGS:
+        log.edit_text(
+            log_message + f"\n<b>Chats affected:</b> <code>{gbanned_chats}</code>",
+            parse_mode=ParseMode.HTML,
+        )
+    else:
+        send_to_list(
+            bot,
+            DRAGONS,
+            f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)",
+            html=True,
+        )
+
+    end_time = time.time()
+    gban_time = round((end_time - start_time), 2)
+
+    if gban_time > 60:
+        gban_time = round((gban_time / 60), 2)
+        message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
+    else:
+        message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
+
+    try:
+        bot.send_message(
+            user_id,
+            "#EVENT"
+            "You have been marked as Malicious and as such have been banned from any future groups we manage."
+            f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
+            f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",
+            parse_mode=ParseMode.HTML,
+        )
+    except:
+        pass
 
 @dev_plus
 def ungmute(update, context):
