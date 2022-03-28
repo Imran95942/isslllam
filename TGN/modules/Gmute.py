@@ -15,7 +15,7 @@ from TGN.modules.helper_funcs.filters import CustomFilters
 from TGN.modules.helper_funcs.misc import send_to_list
 from TGN.modules.sql.users_sql import get_all_chats
 
-SUDO_USERS = SUPPORT_USERS
+SUPPORT_USERS = SUDO_USERS
 STRICT_GMUTE = True 
 GMUTE_ENFORCE_GROUP = 6
 
