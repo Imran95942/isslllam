@@ -112,6 +112,9 @@ def dev_plus(func):
                 update.effective_message.delete()
             except:
                 pass
+        else:
+            update.effective_message
+
     return is_dev_plus_func
 
 
