@@ -13,7 +13,7 @@ from telethon import events
 from telethon.tl.types import MessageEntityMentionName
 from TGN.modules.sql.users_sql import get_all_chats as get_all_admin_chats
 from TGN.events import is_admin
-import TGN.modules.sql.global_mutes_sql import is_muted, mute, unmute
+import TGN.modules.sql import global_mutes_sql
 from TGN.modules.helper_funcs.chat_status import fire_on_cmd
 from TGN.modules.helper_funcs import chat_status
 
