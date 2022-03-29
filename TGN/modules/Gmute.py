@@ -6,7 +6,10 @@ from telegram import Message, Update, Bot, User, Chat
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
 from telegram.utils.helpers import mention_html
+import asyncio
 
+from telethon.events import ChatAction, NewMessage
+from telethon.tl.types import MessageEntityMentionName
 
 
 @fire.on(fire_on_cmd(pattern=r"gmute ?(\d+)?"))
