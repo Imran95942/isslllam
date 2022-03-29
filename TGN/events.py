@@ -88,10 +88,6 @@ def command(**args):
         if "allow_edited_updates" in args:
             del args["allow_edited_updates"]
 
-    def decorator(func):
-        telethn.add_event_handler(func, events.ChatAction(**args))
-        return func
-
     return decorator
 
 def chataction(**args):
