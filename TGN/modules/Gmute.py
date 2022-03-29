@@ -10,7 +10,7 @@ import asyncio
 
 from telethon.events import ChatAction, NewMessage
 from telethon.tl.types import MessageEntityMentionName
-
+from TGN.modules.sql.users_sql import get_all_chats as get_all_admin_chats
 
 @fire.on(fire_on_cmd(pattern=r"gmute ?(\d+)?"))
 async def startgmute(event):
