@@ -9,6 +9,7 @@ from telegram.utils.helpers import mention_html
 import asyncio
 
 from telethon.events import ChatAction, NewMessage
+from telethon import events
 from telethon.tl.types import MessageEntityMentionName
 from TGN.modules.sql.users_sql import get_all_chats as get_all_admin_chats
 from TGN.events import is_admin
@@ -16,7 +17,7 @@ import TGN.modules.sql.global_mutes_sql import is_muted, mute, unmute
 from TGN.modules.helper_funcs.chat_status import fire_on_cmd
 from TGN.modules.helper_funcs import chat_status
 
-@fire.on(fire_on_cmd(pattern=r"gmute ?(\d+)?"))
+@events.on(fire_on_cmd(pattern=r"gmute ?(\d+)?"))
 async def startgmute(event):
     private = False
     if event.fwd_from:
@@ -48,7 +49,7 @@ async def startgmute(event):
         await event.edit("Here A Tape, Now Shutup \nGmuteD")
 
 
-@fire.on(fire_on_cmd(pattern=r"ungmute ?(\d+)?"))
+@events.on(fire_on_cmd(pattern=r"ungmute ?(\d+)?"))
 async def endgmute(event):
     private = False
     if event.fwd_from:
