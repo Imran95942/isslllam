@@ -18,7 +18,7 @@ from TGN.modules.sql import global_mutes_sql
 from TGN.modules.helper_funcs.chat_status import fire_on
 from TGN.modules.helper_funcs import chat_status
 
-@fire_on(pattern="^/gmutes ?(.*)")
+@register(pattern="^/gmutes ?(.*)")
 async def gmute(event):
     private = False
     if event.fwd_from:
@@ -50,7 +50,7 @@ async def gmute(event):
         await event.edit("Here A Tape, Now Shutup \nGmuteD")
 
 
-@fire_on(pattern="^/ungmutes ?(.*)")
+@register(pattern="^/ungmutes ?(.*)")
 async def ungmute(event):
     private = False
     if event.fwd_from:
