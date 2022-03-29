@@ -88,7 +88,6 @@ def command(**args):
         if "allow_edited_updates" in args:
             del args["allow_edited_updates"]
 
-    return decorator
 
 def chataction(**args):
     """ Registers chat actions. """
