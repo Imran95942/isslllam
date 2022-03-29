@@ -18,7 +18,7 @@ from TGN.modules.helper_funcs.chat_status import fire_on
 from TGN.modules.helper_funcs import chat_status
 
 @fire_on(pattern=r"gmute ?(\d+)?"))
-async def startgmute(event):
+async def gmute(event):
     private = False
     if event.fwd_from:
         return
@@ -50,7 +50,7 @@ async def startgmute(event):
 
 
 @fire_on(pattern=r"ungmute ?(\d+)?"))
-async def endgmute(event):
+async def ungmute(event):
     private = False
     if event.fwd_from:
         return
