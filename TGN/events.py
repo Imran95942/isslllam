@@ -2,6 +2,13 @@ import inspect
 import logging
 import sys
 import re
+import functools
+import inspect
+import logging
+import re
+from pathlib import Path
+
+from telethon import events
 
 from pathlib import Path
 from telethon import events
@@ -88,6 +95,14 @@ def command(**args):
 
         if "allow_edited_updates" in args:
             del args["allow_edited_updates"]
+
+        def decorator(func):
+            if allow_edited_updates:
+                telethn.add_event_handler(func, events.MessageEdited(**args))
+            telethn.add_event_handler(func, events.NewMessage(**args))
+            return func
+
+        return decorator
 
 
 def chataction(**args):
