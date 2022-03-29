@@ -89,17 +89,6 @@ def command(**args):
         if "allow_edited_updates" in args:
             del args["allow_edited_updates"]
 
-        def decorator(func):
-            if allow_edited_updates:
-                bot.add_event_handler(func, events.MessageEdited(**args))
-            bot.add_event_handler(func, events.NewMessage(**args))
-            try:
-                LOAD_PLUG[file_test].append(func)
-            except:
-                LOAD_PLUG.update({file_test: [func]})
-            return func
-
-        return decorator
 
 def chataction(**args):
     """ Registers chat actions. """
