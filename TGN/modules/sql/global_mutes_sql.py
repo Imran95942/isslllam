@@ -1,9 +1,7 @@
-import threading
-
-from sqlalchemy import Column, UnicodeText, Integer, String, Boolean
-
-from TGN.modules.sql import BASE, SESSION
-
+try:
+    from TGN.modules.sql import BASE, SESSION
+except ImportError:
+    raise Exception("Hello!")
 
 from sqlalchemy import Column, String
 
