@@ -118,8 +118,6 @@ def dev_plus(func):
 
     return is_dev_plus_func
 
-    return is_dev_plus_func
-
 
 def sudo_plus(func):
     @wraps(func)
