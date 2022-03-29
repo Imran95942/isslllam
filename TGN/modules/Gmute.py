@@ -82,7 +82,7 @@ async def ungmute(event):
         await event.edit("Successfully ungmuted that person")
 
 
-@telethn(incoming=True)
+@command(incoming=True)
 async def watcher(event):
     if is_muted(event.sender_id, "gmute"):
         await event.delete()
