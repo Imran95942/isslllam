@@ -12,6 +12,7 @@ from TGN import (
     WOLVES,
     dispatcher,
 )
+from TGN import dispatcher as bot
 import functools
 import inspect
 import logging
