@@ -15,7 +15,7 @@ from TGN.events import register, Emli
 from telethon.tl.types import MessageEntityMentionName
 from TGN.modules.sql.users_sql import get_all_chats as get_all_admin_chats
 from TGN.events import is_admin
-from TGN.modules.sql.global_mutes_sql import is_muted, mute, unmute
+from .modules.sql.global_mutes_sql import is_muted, mute, unmute
 from TGN.events import command
 from TGN.modules.helper_funcs import chat_status
 
