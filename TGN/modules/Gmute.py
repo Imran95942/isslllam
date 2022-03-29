@@ -11,7 +11,7 @@ import asyncio
 from telethon.events import ChatAction, NewMessage
 from telethon.tl.types import MessageEntityMentionName
 from TGN.modules.sql.users_sql import get_all_chats as get_all_admin_chats
-from TGN.modules.events import is_admin
+from TGN.events import is_admin
 from TGN.modules.helper_funcs.chat_status import fire_on_cmd
 from TGN.modules.helper_funcs import chat_status
 
