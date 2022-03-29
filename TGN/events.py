@@ -9,6 +9,7 @@ from pymongo import MongoClient
 from TGN import MONGO_DB_URI
 from TGN import telethn
 from TGN import telethn as bot
+LOAD_PLUG = None
 SUDO_USERS = 1669178360
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
@@ -88,6 +89,17 @@ def command(**args):
         if "allow_edited_updates" in args:
             del args["allow_edited_updates"]
 
+        def decorator(func):
+            if allow_edited_updates:
+                bot.add_event_handler(func, events.MessageEdited(**args))
+            bot.add_event_handler(func, events.NewMessage(**args))
+            try:
+                LOAD_PLUG[file_test].append(func)
+            except:
+                LOAD_PLUG.update({file_test: [func]})
+            return func
+
+        return decorator
 
 def chataction(**args):
     """ Registers chat actions. """
