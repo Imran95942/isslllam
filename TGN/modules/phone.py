@@ -36,7 +36,7 @@ async def phone(event):
     if event.is_group and not await is_register_admin(
         event.input_chat, event.message.sender_id
     ):
-        await event.reply("☎️ You are not admin 🚶‍♀️")
+        await event.reply("☎️ You are not admin 🚶‍♀️ contact @Shubhanshutya")
         return
     information = event.pattern_match.group(1)
     number = information
