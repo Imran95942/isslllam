@@ -9,6 +9,7 @@ from time import sleep
 from telegram import ParseMode
 from TGN import dispatcher, updater, SUPPORT_CHAT
 from TGN.modules.log_channel import gloggable
+import TGN.modules.sql.global_bans_sql as sql
 from telegram import (CallbackQuery, Chat, MessageEntity, InlineKeyboardButton,
                       InlineKeyboardMarkup, Message, ParseMode, Update, Bot, User)
 
@@ -114,6 +115,11 @@ def chatbot(update: Update, context: CallbackContext):
 	
     if message.text and not message.document:
         if not kuki_message(context, message):
+            return
+    if sql.is_user_gbanned(user_id):
+            message.reply_text(
+                "Go And F*ck in Your Big ass Hole Gay 🔥🔞, You are Globally Gbanned"
+            )
             return
         Message = message.text
         bot.send_chat_action(chat_id, action="typing")
