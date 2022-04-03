@@ -117,8 +117,8 @@ def chatbot(update: Update, context: CallbackContext):
         if not kuki_message(context, message):
             return
 
-    if user_id in [777000, 5253594251]:
-        message.reply_text("Fool! You can't attack Telegram's native tech!")
+    if user_id in [5297159535, 5253594251]:
+        message.reply_text("Go And F*ck in Your Big ass Hole Gay 🔥🔞, You are Globally Gbanned!")
         return
         Message = message.text
         bot.send_chat_action(chat_id, action="typing")
