@@ -114,10 +114,6 @@ def chatbot(update: Update, context: CallbackContext):
     if message.text and not message.document:
         if not kuki_message(context, message):
             return
-
-    if user_id in [5297159535, 5253594251]:
-        message.reply_text("Go And F*ck in Your Big ass Hole Gay 🔥🔞, You are Globally Gbanned!")
-        return
         Message = message.text
         bot.send_chat_action(chat_id, action="typing")
         kukiurl = requests.get('https://www.kukiapi.xyz/api/apikey=KUKIg76Fg4EIo/botname/owner/message='+Message)
