@@ -186,7 +186,6 @@ async def karma(_, message):
 
 
 @app.on_message(filters.command("karma") & ~filters.private)
-@adminsOnly
 async def captcha_state(_, message):
     usage = "**Usage:**\n/karma [ON|OFF]"
     if len(message.command) != 2:
