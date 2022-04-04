@@ -31,6 +31,19 @@ from TGN import (
     StartTime,
     SUPPORT_CHAT,
 )
+from TGN.modules.helper_funcs.chat_status import (
+    user_admin_no_reply,
+    bot_admin,
+    can_restrict,
+    connection_status,
+    is_user_admin,
+    is_user_ban_protected,
+    is_user_in_chat,
+    user_admin,
+    user_can_ban,
+    can_delete,
+    dev_plus,
+)
 from TGN.__main__ import STATS, TOKEN, USER_INFO
 from TGN.modules.sql import SESSION
 import TGN.modules.sql.userinfo_sql as sql
@@ -223,7 +236,8 @@ def gifid(update: Update, context: CallbackContext):
     else:
         update.effective_message.reply_text("Please reply to a gif to get its ID.")
 
-
+@user_admin
+@user_can_ban
 def info(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -330,7 +344,7 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "Support", url="https://t.me/GodfatherSupport"),
+                                "🚶Kick", callback_data=f"chat.kick_member{user_id}"
                             InlineKeyboardButton(
                                 "Creator", url="https://t.me/The_Godfather_Network")
                         ],
