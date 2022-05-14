@@ -193,17 +193,17 @@ def unapproveall_btn(update: Update, context: CallbackContext):
 
 
 __help__ = """
-Sometimes, you might trust a user not to send unwanted content.
-Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
+Иногда вы можете доверять пользователю, чтобы он не отправлял нежелательный контент.
+Возможно, не настолько, чтобы сделать его администратором, но вы можете быть согласны с тем, что блокировки, черные списки и антифлуд к нему не применяются.
 
-That's what approvals are for - approve of trustworthy users to allow them to send
+Вот для чего нужны одобрения - одобрить надежных пользователей, чтобы разрешить им отправлять
 
-*Admin commands:*
-❂ /approval*:* Check a user's approval status in this chat.
-❂ /approve*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
-❂ /unapprove*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
-❂ /approved*:* List all approved users.
-❂ /unapproveall*:* Unapprove *ALL* users in a chat. This cannot be undone.
+*Админские команды:*
+❂ /approval*:* Проверить статус одобрения пользователя в этом чате.
+❂ /approve*:* Одобрить пользователя. Блокировки, черные списки и антифлуд больше не будут применяться к ним.
+❂ /unapprove*:* Не одобрить пользователя. Теперь на него снова будут распространяться блокировки, черные списки и антифлуд.
+❂ /approved*:* Список всех одобренных пользователей.
+❂ /unapproveall*:* Отменить одобрение *всех* пользователей в чате. Это нельзя отменить.
 """
 
 APPROVE = DisableAbleCommandHandler("approve", approve, run_async=True)
