@@ -454,27 +454,27 @@ __mod_name__ = "Blacklists"
 
 __help__ = """
 
-Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
+Черные списки используются для предотвращения произнесения определенных слов в группе. При любом упоминании запрещенных слов сообщение будет немедленно удалено. Хорошим сочетанием является использование этого фильтра в паре с предупреждающими фильтрами!
 
-*NOTE*: Blacklists do not affect group admins.
+*ПРИМЕЧАНИЕ*: Черные списки не влияют на администраторов групп.
 
-❂ /blacklist*:* View the current blacklisted words.
+❂ /blacklist*:* Просмотр текущих слов черного списка.
 
-Admin only:
-❂ /addblacklist <triggers>*:* Add a trigger to the blacklist. Each line is considered one trigger, so using different lines will allow you to add multiple triggers.
-❂ /unblacklist <triggers>*:* Remove triggers from the blacklist. Same newline logic applies here, so you can remove multiple triggers at once.
-❂ /blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>*:* Action to perform when someone sends blacklisted words.
+Только для администраторов:
+❂ /addblacklist <triggers>*:* Добавить триггер в черный список. Каждая строка считается одним триггером, поэтому использование разных строк позволит вам добавить несколько триггеров.
+❂ /unblacklist <triggers>*:* Удалить триггеры из черного списка. Здесь применяется та же логика новой строки, поэтому вы можете удалить несколько триггеров одновременно.
+❂ /blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>*:* Действие, выполняемое, когда кто-то посылает слова из черного списка.
 
-Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
-*NOTE:* Blacklist stickers do not affect the group admin
-❂ • /blsticker*:* See current blacklisted sticker
-*Only admin:*
-❂ /addblsticker <sticker link>*:* Add the sticker trigger to the black list. Can be added via reply sticker
-❂ /unblsticker <sticker link>*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once
-❂ /rmblsticker <sticker link>*:* Same as above
-❂ /blstickermode <delete/ban/tban/mute/tmute>*:* sets up a default action on what to do if users use blacklisted stickers
-Note:
-❂ <sticker link> can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message
+Черный список стикеров используется для остановки определенных стикеров. Когда стикер будет отправлен, сообщение будет немедленно удалено.
+*NOTE:* Стикеры из черного списка не влияют на администратора группы.
+❂ - /blsticker*:* Посмотреть текущий стикер из черного списка.
+* Только администратор:*
+❂ /addblsticker <ссылка на стикер>*:* Добавить стикер-триггер в черный список. Может быть добавлен через ответный стикер
+❂ /unblsticker <ссылка на стикер>*:* Удалить триггеры из черного списка. Здесь применяется та же логика новой строки, поэтому вы можете удалить несколько триггеров одновременно
+❂ /rmblsticker <ссылка на триггер>*:* То же, что и выше
+❂ /blstickermode <delete/ban/tban/mute/tmute>*:* устанавливает действие по умолчанию, что делать, если пользователи используют стикеры из черного списка.
+Примечание:
+❂ <ссылка на стикер> может быть `https://t.me/addstickers/<стикер>` или просто `<стикер>` или ответ на сообщение о стикере
 
 """
 BLACKLIST_HANDLER = DisableAbleCommandHandler(
