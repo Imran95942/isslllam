@@ -81,9 +81,10 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-────「 [GodfatherBot](https://telegra.ph/file/bfa2fbaf65ac04fad78ee.jpg) 」────
-ʜᴇʏ! {}
-ɪ ᴀᴍ 𝐆𝐨𝐝𝐟𝐚𝐭𝐡𝐞𝐫𝐛𝐨𝐭 ᴀɴ ᴀɴɪᴍᴇ ᴛʜᴇᴍᴇᴅ ᴀᴅᴠᴀɴᴄᴇ ɢʀᴏᴜᴏ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ ᴡɪᴛʜ ᴀ ʟᴏᴛ ᴏғ sᴘᴇᴄɪᴀʟɪᴛʏ.
+────「 [BORZ](https://telegra.ph/file/8a4635507507beb9c3011.jpg) 」────
+Здравствуйте! {}
+BORZ поможет модерировать ваши чаты!
+Добавьте бота в ваш чат и выдайте права администратора. /help.
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
 У меня есть множество удобных функций, таких как:
 ‣ Я умею тегать людей в чатах.
@@ -94,21 +95,20 @@ PM_START_TEXT = """
 ‣ Система хранения фильтров
 ‣ Утверждения и многое другое.
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
-➛ᴛʀʏ ᴛʜᴇ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ᴛᴏ ᴋɴᴏᴡ ᴍʏ ᴀʙɪʟɪᴛɪᴇs ××
 """
 
 buttons = [
     [
         InlineKeyboardButton(
-            text="💕 Add To Your Group 💕", url="t.me/Anierobot_bot?startgroup=new"),
+            text="🐺 Добавить бота в свою группу 🐺", url="t.me/b0rzbot?startgroup=new"),
     ],
     [                  
                        InlineKeyboardButton(
-                             text="Support👥",
-                             url=f"https://t.me/GodfatherSupport"),
+                             text="Разработчик🔱",
+                             url=f"https://t.me/IsIam07"),
                        InlineKeyboardButton(
-                             text="Updates📡",
-                             url=f"https://t.me/The_Godfather_Network"),
+                             text="ᴍ ᴜ ʜ ᴀ ʀ ɪ ʙ u ɴ",
+                             url=f"https://t.me/Muharibun07"),
     ],
     [
         InlineKeyboardButton(
@@ -120,7 +120,7 @@ buttons = [
     ],
     [
         InlineKeyboardButton(
-            text="Donate 🌹", 
+            text="Donate ", 
             callback_data="shukurenai_donate"),
     ],
 
@@ -131,9 +131,9 @@ HELP_STRINGS = """
 Click on the button bellow to get description about specifics command."""
 
 HELP_MSG = "Click the button below to get help manu in your pm."
-DONATE_STRING = """Contact to **@Godfatherakkii**"""
-HELP_IMG = "https://telegra.ph/file/d394e1486b4fa1cfcb322.jpg"
-GROUP_IMG = "https://telegra.ph/file/3f3c3af0e2236daad0dd2.jpg"
+DONATE_STRING = """Contact to **@isI07**"""
+HELP_IMG = "https://telegra.ph/file/8a4635507507beb9c3011.jpg"
+GROUP_IMG = "https://telegra.ph/file/8a4635507507beb9c3011.jpg"
 
 
 
@@ -257,8 +257,8 @@ def start(update: Update, context: CallbackContext):
         reply_markup=InlineKeyboardMarkup(
                 [
                   [
-                  InlineKeyboardButton(text="✧ Support ", url=f"https://t.me/GodfatherSupport"),
-                  InlineKeyboardButton(text="✧ Updates ", url=f"t.me/The_Godfather_Network"),
+                  InlineKeyboardButton(text="✧ Support ", url=f"https://t.me/Muharibun07"),
+                  InlineKeyboardButton(text="✧ Updates ", url=f"https://t.me/Muharibun07"),
                   ]
                 ]
             ),
