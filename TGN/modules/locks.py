@@ -562,27 +562,27 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
-Do stickers annoy you? or want to avoid people sharing links? or pictures? \
-You're in the right place!
-The locks module allows you to lock away some common items in the \
-telegram world; the bot will automatically delete them!
+Вас раздражают стикеры? Или вы хотите, чтобы люди не делились ссылками или картинками? \
+Вы в правильном месте!
+Модуль замков позволяет вам заблокировать некоторые распространенные предметы в \
+мире Telegram; бот будет автоматически удалять их!
 
- ❍ /locktypes*:* Lists all possible locktypes
+ ❍ /locktypes*:* Список всех возможных типов замков.
  
-*Admins only:*
- ❍ /lock <type>*:* Lock items of a certain type (not available in private)
- ❍ /unlock <type>*:* Unlock items of a certain type (not available in private)
- ❍ /locks*:* The current list of locks in this chat.
+* Только для администраторов:*
+ ❍ /lock <type>*:* Блокировка предметов определенного типа (недоступно в привате)
+ ❍ /unlock <type>*:* Разблокировать элементы определенного типа (недоступно в приватном режиме)
+ ❍ /locks*:* Текущий список блокировок в этом чате.
  
-Locks can be used to restrict a group's users.
-eg:
-Locking urls will auto-delete all messages with urls, locking stickers will restrict all \
-non-admin users from sending stickers, etc.
-Locking bots will stop non-admins from adding bots to the chat.
+Замки могут быть использованы для ограничения пользователей группы.
+Например:
+Блокировка ссылок приведет к автоматическому удалению всех сообщений с ссылками, блокировка стикеров ограничит всех \
+пользователям, не являющимся администраторами, отправлять стикеры и т.д.
+Блокировка ботов запретит не-админам добавлять ботов в чат.
 
-*Note:*
- • Unlocking permission *info* will allow members (non-admins) to change the group information, such as the description or the group name
- • Unlocking permission *pin* will allow members (non-admins) to pinned a message in a group
+*Примечание:*
+ - Разблокировка права *info* позволит пользователям (не администраторам) изменять информацию о группе, такую как описание или название группы.
+ - Разблокировка права *pin* позволит пользователям (не администраторам) прикрепить сообщение в группе.
 
 """
 
