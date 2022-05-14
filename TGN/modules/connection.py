@@ -403,17 +403,17 @@ def connect_button(update, context):
 __mod_name__ = "Connection"
 
 __help__ = """
-Sometimes, you just want to add some notes and filters to a group chat, but you don't want everyone to see; This is where connections come in...
-This allows you to connect to a chat's database, and add things to it without the commands appearing in chat! For obvious reasons, you need to be an admin to add things; but any member in the group can view your data.
+Иногда вы просто хотите добавить некоторые заметки и фильтры в групповой чат, но не хотите, чтобы все их видели.
+Это позволяет вам подключаться к базе данных чата и добавлять в него вещи без появления команд в чате! По очевидным причинам, для добавления вещей вам нужно быть администратором, но любой член группы может просматривать ваши данные.
 
-❂ /connect: Connects to chat (Can be done in a group by /connect or /connect <chat id> in PM)
-❂ /connection: List connected chats
-❂ /disconnect: Disconnect from a chat
-❂ /helpconnect: List available commands that can be used remotely
+❂ /connect: Подключает к чату (в группе это можно сделать командой /connect или /connect <chat id> в PM)
+❂ /connection: Список подключенных чатов
+❂ /disconnect: Отключиться от чата
+❂ /helpconnect: Список доступных команд, которые можно использовать удаленно.
 
-*Admin only:*
+* Только для администраторов:*
 
-❂ /allowconnect <yes/no>: allow a user to connect to a chat
+❂ /allowconnect <yes/no>: разрешить пользователю подключаться к чату
 """
 
 CONNECT_CHAT_HANDLER = CommandHandler(
