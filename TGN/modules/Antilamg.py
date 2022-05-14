@@ -368,23 +368,23 @@ async def check_anti_funcs(_, message: Message):
 
 __mod_name__ = "Anti-lang"
 __help__ = """
-Delete messages containing characters from one of the following automatically
-- Arabic Language
-- Chinese Language
-- Japanese Language (Includes Hiragana, Kanji and Katakana)
-- Sinhala Language
-- Tamil Language
-- Cyrillic Language
+Удаляет сообщения, содержащие символы одного из следующих языков автоматически
+- Арабский язык
+- китайский язык
+- Японский язык (включает хирагану, кандзи и катакану)
+- сингальский язык
+- Тамильский язык
+- Кириллица
 
-**Admin Commands:**
+**Команды администратора:**
 - /antilang - viwe pannel
-- /antiarabic `[on | off]` -  anti-arab function
-- /antichinese `[on | off]` -  anti-chinese function
-- /antijapanese `[on | off]` -  anti-japanese function
-- /antirussian `[on | off]` -  anti-russian function
-- /antisinhala `[on | off]` -  anti-sinhala function
-- /antitamil `[on | off]` -  anti-tamilfunction
+- /antiarabic `[on | off]` - антиарабская функция
+- /antichinese `[on | off]` - антикитайская функция
+- /antijapanese `[on | off]` - антияпонская функция
+- /antirussian `[on | off]` - антирусская функция
+- /antisinhala `[on | off]` - антисингальская функция
+- /antitamil `[on | off]` - анти-тамильская функция
 
-**Note** : If admin send any containing characters in this lang when on  any function
-           it will delete and user send 3 warn and after ban him       
+**Примечание** : Если администратор посылает любые символы, содержащие этот язык, при включении любой функции
+           он будет удален, а пользователю будет отправлено 3 предупреждения, после чего он будет забанен.       
  """
