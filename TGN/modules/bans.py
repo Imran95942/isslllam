@@ -572,23 +572,23 @@ def snipe(update: Update, context: CallbackContext):
 
 
 __help__ = """
-*User Commands:*
+*Команды пользователя:*
 
-❂ /kickme*:* kicks the user who issued the command
+❂ /kickme*:* ударяет пользователя, отдавшего команду.
 
-*Admins only:*
+* Только для администраторов:*
 
-❂ /ban <userhandle>*:* bans a user. (via handle, or reply)
-❂ /sban <userhandle>*:* Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
-❂ /tban <userhandle> x(m/h/d)*:* bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
-❂ /unban <userhandle>*:* unbans a user. (via handle, or reply)
-❂ /kick <userhandle>*:* kicks a user out of the group, (via handle, or reply)
-❂ /mute <userhandle>*:* silences a user. Can also be used as a reply, muting the replied to user.
-❂ /tmute <userhandle> x(m/h/d)*:* mutes a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
-❂ /unmute <userhandle>*:* unmutes a user. Can also be used as a reply, muting the replied to user.
-❂ /zombies*:* searches deleted accounts
-❂ /zombies clean*:* removes deleted accounts from the group.
-❂ /snipe <chatid> <string>*:* Make me send a message to a specific chat.
+❂ /ban <userhandle>*:* банить пользователя. 
+❂ /sban <userhandle>*:* молчаливый запрет пользователя. Удаляет команду, отвечает на сообщение и не отвечает.
+❂ /tban <userhandle> x(m/h/d)*:* запрещает пользователя на x времени. m = минуты, h = часы, d = дни.
+❂ /unban <userhandle>*:* разбанивает пользователя.
+❂ /kick <userhandle>*:* удаляет пользователя из группы.
+❂ /mute <userhandle>*:* заставляет пользователя замолчать. Может также использоваться в качестве ответа, отключая звук пользователя, которому ответили.
+❂ /tmute <userhandle> x(m/h/d)*:* отключает пользователя на x времени. (через хэндл или ответ). m = минуты, h = часы, d = дни.
+❂ /unmute <userhandle>*:* отключает пользователя. Может также использоваться в качестве ответа, отключая звук пользователя, которому ответили.
+❂ /zombies*:* поиск удаленных аккаунтов.
+❂ /zombies clean*:* удаляет удаленные аккаунты из группы.
+❂ /snipe <chatid> <string>*:* Заставить меня отправить сообщение в определенный чат.
 """
 
 
