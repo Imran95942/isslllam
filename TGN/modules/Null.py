@@ -24,29 +24,24 @@ async def carbon_func(_, message):
     carbon.close()
 
 
-MEMEK = "https://telegra.ph/file/d915971ae531844d8e96b.jpg"
+MEMEK = "https://telegra.ph/file/31220bca9d96a5ad5a7d3.jpg"
 
 @pbot.on_message(filters.command("about"))
 async def repo(_, message):
     await message.reply_photo(
         photo=MEMEK,
-        caption=f"""✨ **Hᴇʏ I Aᴍ GodfatherBot** 
+        caption=f"""🐺 я BORZ ** 
 
-**🧑‍💻 Powered By : [GodfatherNetwork](https://t.me/The_Godfather_Network)**
-**Dev -  : [Null-coder](https://t.me/Shubhanshutya)**
-**Dev 2  : [Boo](https://t.me/Timesisnotwaiting)**
-**Owner Hu vro  : [Akki](https://t.me/Godfatherakkii)**
-**You already know I am music and music bot so why I introduced my self  .**
-
-**My fev word only for girls Can you Marry me 🥀 because I like you .**
+**🧑‍💻 Разработчик : [BORZ](https://t.me/IsIam07)**
+**Канал -  : [ᴍ ᴜ ʜ ᴀ ʀ ɪ ʙ u ɴ](https://t.me/Muharibun07)**
 """,
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "Update", url="https://t.me/The_Godfather_Network"), 
+                        "Разработчик", url="https://t.me/IsIam07"), 
                     InlineKeyboardButton(
-                        "Support", url="https://t.me/GodfatherSupport")
+                        "Канал", url="https://t.me/Muharibun07")
                 ]
             ]
         )
